@@ -1,0 +1,38 @@
+{
+	"schemaVersion": 1,
+	"id": "durability-guard",
+	"version": "1.1.0",
+	"name": "Durability Guard",
+	"description": "Never break your tools again!",
+	"authors": [
+		"BigBrainRobin29"
+	],
+	"contact": {
+		"homepage": "",
+		"sources": ""
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/durability-guard/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"bigbrainrobin29.durabilityguard.DurabilityGuard"
+		],
+		"fabric-datagen": [
+			"bigbrainrobin29.durabilityguard.DurabilityGuardDataGenerator"
+		],
+		"modmenu": ["bigbrainrobin29.durabilityguard.ModMenuEntry"]
+	},
+	"mixins": [
+		"durability-guard.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.14.25",
+		"minecraft": "~1.20.1",
+		"java": ">=17",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
