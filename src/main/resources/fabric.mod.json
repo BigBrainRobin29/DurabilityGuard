@@ -11,7 +11,7 @@
 		"homepage": "",
 		"sources": ""
 	},
-	"license": "CC BY-NC 3.0",
+	"license": "CC BY-NC-SA 4.0",
 	"icon": "assets/durability-guard/icon.png",
 	"environment": "*",
 	"entrypoints": {
