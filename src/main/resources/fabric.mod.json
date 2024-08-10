@@ -1,0 +1,38 @@
+{
+	"schemaVersion": 1,
+	"id": "durability-guard",
+	"version": "${version}",
+	"name": "Durability Guard",
+	"description": "Stops you from mining if your tool has low durability.",
+	"authors": [
+		"BigBrainRobin29"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC BY-NC-SA 4.0",
+	"icon": "assets/durability-guard/icon.png",
+	"environment": "client",
+	"entrypoints": {
+		"client": [
+			"bigbrainrobin29.durabilityguard.DurabilityGuard"
+		],
+		"modmenu": [
+			"bigbrainrobin29.durabilityguard.ModMenuIntegration"
+		]
+	},
+	"mixins": [
+		"durability-guard.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.15.11",
+		"minecraft": "~1.21",
+		"java": ">=21",
+		"fabric-api": "*",
+		"yet_another_config_lib_v3": ">=3.5.0"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}

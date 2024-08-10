@@ -1,0 +1,11 @@
+{
+  "required": true,
+  "package": "bigbrainrobin29.durabilityguard.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "MinecraftMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
