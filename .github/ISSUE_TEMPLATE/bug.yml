@@ -8,37 +8,42 @@ body:
   - type: textarea
     id: desc
     attributes:
-      required: true
       label: "Description"
       placeholder: "Describe what happened"
+    validations:
+      required: true
 
   - type: textarea
     id: repro
     attributes:
-      required: false
       label: "Steps to reproduce"
       placeholder: "Describe what you did before the bug occurred"
+    validations:
+      required: false
 
   - type: dropdown
     id: version
     attributes:
-      required: true
       label: "Version of the mod"
       options: ["2.0", "1.1.0"]
       default: 0
+    validations:
+      required: true
 
   - type: dropdown
     id: mcversion
     attributes:
-      required: true
       label: "Minecraft version"
       options: ["1.21", "1.20.1"]
       default: 0
+    validations:
+      required: true
 
   - type: dropdown
     id: platform
     attributes:
-      required: false
       label: "Platform"
       options: ["Windows", "MacOS", "Linux"]
       default: 0
+    validations:
+      required: false
