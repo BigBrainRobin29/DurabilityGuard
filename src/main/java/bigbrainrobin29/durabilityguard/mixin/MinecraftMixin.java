@@ -1,12 +1,12 @@
 package bigbrainrobin29.durabilityguard.mixin;
 
-import bigbrainrobin29.durabilityguard.DurabilityGuard;
 import bigbrainrobin29.durabilityguard.DurabilityGuardConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.toasts.SystemToast;
 import net.minecraft.client.gui.components.toasts.ToastComponent;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.phys.HitResult;
 import org.jetbrains.annotations.Nullable;
@@ -49,13 +49,10 @@ public abstract class MinecraftMixin {
     @Unique
     void checkDamage(Runnable cancel) {
         if (!player.getMainHandItem().isEmpty()) {
-            DurabilityGuard.LOGGER.info(String.valueOf(player.getMainHandItem().getDamageValue()));
-            DurabilityGuard.LOGGER.info(String.valueOf(player.getMainHandItem().getMaxDamage()));
-            DurabilityGuard.LOGGER.info(String.valueOf((float) player.getMainHandItem().getDamageValue() / (float)player.getMainHandItem().getMaxDamage()));
-            boolean shouldStop = player.getMainHandItem().isDamageableItem() && DurabilityGuardConfig.active && switch (DurabilityGuardConfig.limitType) {
-                case PERCENTAGE -> (float)(player.getMainHandItem().getMaxDamage() - player.getMainHandItem().getDamageValue()) / (float)player.getMainHandItem().getMaxDamage() * 100f <= DurabilityGuardConfig.minPercentage;
-                case NUMBER -> player.getMainHandItem().getMaxDamage() - player.getMainHandItem().getDamageValue() <= DurabilityGuardConfig.minDurability;
-                case BOTH -> (float)(player.getMainHandItem().getMaxDamage() - player.getMainHandItem().getDamageValue()) / (float)player.getMainHandItem().getMaxDamage() * 100f <= DurabilityGuardConfig.minPercentage || player.getMainHandItem().getMaxDamage() - player.getMainHandItem().getDamageValue() <= DurabilityGuardConfig.minDurability;
+            boolean shouldStop = player.getMainHandItem().isDamageableItem() && DurabilityGuardConfig.active && (!DurabilityGuardConfig.ignoredItems.contains(BuiltInRegistries.ITEM.getKey(player.getMainHandItem().getItem()).toString())) && switch (DurabilityGuardConfig.limitType) {
+                case PERCENTAGE -> (float)(player.getMainHandItem().getMaxDamage() - (player.getMainHandItem().getDamageValue() + 1)) / (float)player.getMainHandItem().getMaxDamage() * 100f < DurabilityGuardConfig.minPercentage;
+                case NUMBER -> player.getMainHandItem().getMaxDamage() - (player.getMainHandItem().getDamageValue() + 1) < DurabilityGuardConfig.minDurability;
+                case BOTH -> (float)(player.getMainHandItem().getMaxDamage() - (player.getMainHandItem().getDamageValue() + 1)) / (float)player.getMainHandItem().getMaxDamage() * 100f < DurabilityGuardConfig.minPercentage || player.getMainHandItem().getMaxDamage() - (player.getMainHandItem().getDamageValue() + 1) < DurabilityGuardConfig.minDurability;
             };
             if (shouldStop) {
                 SystemToast.addOrUpdate(this.getToasts(), systemToastId, Component.literal("Durability Guard"), Component.literal("Your tool has low durability!").withStyle(ChatFormatting.RED));

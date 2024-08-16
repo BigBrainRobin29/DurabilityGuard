@@ -1,10 +1,7 @@
 package bigbrainrobin29.durabilityguard;
 
 import dev.isxander.yacl3.api.*;
-import dev.isxander.yacl3.api.controller.EnumControllerBuilder;
-import dev.isxander.yacl3.api.controller.IntegerFieldControllerBuilder;
-import dev.isxander.yacl3.api.controller.IntegerSliderControllerBuilder;
-import dev.isxander.yacl3.api.controller.TickBoxControllerBuilder;
+import dev.isxander.yacl3.api.controller.*;
 import dev.isxander.yacl3.config.v2.api.ConfigClassHandler;
 import dev.isxander.yacl3.config.v2.api.SerialEntry;
 import dev.isxander.yacl3.config.v2.api.serializer.GsonConfigSerializerBuilder;
@@ -12,6 +9,9 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static bigbrainrobin29.durabilityguard.DurabilityGuard.MOD_ID;
 
@@ -31,6 +31,8 @@ public class DurabilityGuardConfig {
     public static int minDurability = 30;
     @SerialEntry
     public static LimitType limitType = LimitType.PERCENTAGE;
+    @SerialEntry
+    public static List<String> ignoredItems = new ArrayList<>();
 
     public static Screen getScreen(Screen parent) {
         return YetAnotherConfigLib.createBuilder()
@@ -90,6 +92,19 @@ public class DurabilityGuardConfig {
                                                 .description(OptionDescription.of(Component.literal("Percentage: The limit scales with the maximum durability of the tool\n\nNumber: The limit is a fixed number\n\nBoth: If the durability reaches one of the other limits, the mod will stop you")))
                                                 .controller((opt) -> EnumControllerBuilder.create(opt)
                                                         .enumClass(LimitType.class))
+                                                .build()
+                                )
+                                .option(
+                                        ListOption.<String>createBuilder()
+                                                .name(Component.literal("Ignored items"))
+                                                .binding(
+                                                        new ArrayList<>(),
+                                                        () -> ignoredItems,
+                                                        (newV) -> ignoredItems = newV
+                                                )
+                                                .controller(StringControllerBuilder::create)
+                                                .description(OptionDescription.of(Component.literal("The mod will ignore these items.")))
+                                                .initial("minecraft:")
                                                 .build()
                                 )
                                 .build()
