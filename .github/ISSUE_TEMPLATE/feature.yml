@@ -1,0 +1,14 @@
+name: Feature Request
+description: Suggest a feature
+title: "[Feature Request]: "
+labels: ["feature request"]
+assignees:
+  - BigBrainRobin29
+body:
+  - type: input
+    id: idea
+    attributes:
+      label: Idea Description
+      description: "Describe your idea in detail"
+    validations:
+      required: true
