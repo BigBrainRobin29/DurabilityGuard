@@ -5,7 +5,7 @@ labels: ["feature request"]
 assignees:
   - BigBrainRobin29
 body:
-  - type: input
+  - type: textarea
     id: idea
     attributes:
       label: Idea Description
