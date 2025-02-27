@@ -10,6 +10,8 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.hit.HitResult;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -17,6 +19,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Mixin(MinecraftClient.class)
 public abstract class MinecraftMixin {
@@ -30,6 +35,8 @@ public abstract class MinecraftMixin {
 
     @Shadow public abstract ToastManager getToastManager();
 
+
+    @Shadow @Final private static Logger LOGGER;
 
     @Inject(method = "doAttack", at = @At(value = "HEAD"), cancellable = true)
     void check(CallbackInfoReturnable<Boolean> cir) {
@@ -52,8 +59,7 @@ public abstract class MinecraftMixin {
     void checkDamage(Runnable cancel) {
         if (!player.getMainHandStack().isEmpty()) {
             boolean damageable = player.getMainHandStack().isDamageable();
-            boolean isIgnored = !DurabilityGuardConfig.ignoredItems.contains(Registries.ITEM.getKey(player.getMainHandStack().getItem()).toString());
-            boolean shouldStop = damageable && !player.isInCreativeMode() && DurabilityGuardConfig.active && isIgnored &&
+            boolean shouldStop = damageable && !player.isInCreativeMode() && DurabilityGuardConfig.active && !isIgnored() &&
                 switch (DurabilityGuardConfig.limitType) {
                     case PERCENTAGE -> (float)(player.getMainHandStack().getMaxDamage() - (player.getMainHandStack().getDamage() + 1)) / (float)player.getMainHandStack().getMaxDamage() * 100f < DurabilityGuardConfig.minPercentage;
                     case NUMBER -> player.getMainHandStack().getMaxDamage() - (player.getMainHandStack().getDamage() + 1) < DurabilityGuardConfig.minDurability;
@@ -64,5 +70,30 @@ public abstract class MinecraftMixin {
                 cancel.run();
             }
         }
+    }
+
+    @Unique
+    private boolean isIgnored() {
+        boolean isIgnored = false;
+
+        String id = Registries.ITEM.getId(player.getMainHandStack().getItem()).toString();
+
+        LOGGER.info("Checking if item is ignored: " + id);
+
+        if (DurabilityGuardConfig.ignoredItems.contains(id)) {
+            LOGGER.info("Item is ignored: " + id);
+            isIgnored = true;
+        }
+
+        for (String ignoredItem : DurabilityGuardConfig.ignoredItems) {
+            Pattern pattern = Pattern.compile(ignoredItem.replace("*", ".*"), Pattern.CASE_INSENSITIVE);
+            if (pattern.matcher(id).matches()) {
+                LOGGER.info("Item is ignored: " + id);
+                isIgnored = true;
+                break;
+            }
+        }
+
+        return isIgnored;
     }
 }
