@@ -6,9 +6,9 @@ import dev.isxander.yacl3.config.v2.api.ConfigClassHandler;
 import dev.isxander.yacl3.config.v2.api.SerialEntry;
 import dev.isxander.yacl3.config.v2.api.serializer.GsonConfigSerializerBuilder;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,7 @@ import static bigbrainrobin29.durabilityguard.DurabilityGuard.MOD_ID;
 
 public class DurabilityGuardConfig {
     public static ConfigClassHandler<DurabilityGuardConfig> HANDLER = ConfigClassHandler.createBuilder(DurabilityGuardConfig.class)
-            .id(ResourceLocation.fromNamespaceAndPath(MOD_ID, "config"))
+            .id(Identifier.of(MOD_ID, "config"))
             .serializer(config -> GsonConfigSerializerBuilder.create(config)
                     .setPath(FabricLoader.getInstance().getConfigDir().resolve(MOD_ID + ".json"))
                     .build())
@@ -36,15 +36,15 @@ public class DurabilityGuardConfig {
 
     public static Screen getScreen(Screen parent) {
         return YetAnotherConfigLib.createBuilder()
-                .title(Component.literal("Durability Guard"))
+                .title(Text.literal("Durability Guard"))
                 .save(HANDLER::save)
                 .category(
                         ConfigCategory.createBuilder()
-                                .name(Component.literal("General"))
+                                .name(Text.literal("General"))
                                 .option(
                                         Option.<Integer>createBuilder()
-                                                .name(Component.literal("Minimum Percentage"))
-                                                .description(OptionDescription.of(Component.literal("The mod will stop you from mining if the durability percentage is lower than this.")))
+                                                .name(Text.literal("Minimum Percentage"))
+                                                .description(OptionDescription.of(Text.literal("The mod will stop you from mining if the durability percentage is lower than this.")))
                                                 .binding(
                                                         10,
                                                         () -> minPercentage,
@@ -52,14 +52,14 @@ public class DurabilityGuardConfig {
                                                 )
                                                 .controller((opt) -> IntegerSliderControllerBuilder.create(opt)
                                                         .range(0, 100)
-                                                        .formatValue((value -> Component.literal(value.toString() + "%")))
+                                                        .formatValue((value -> Text.literal(value.toString() + "%")))
                                                         .step(1))
                                                 .build()
                                 )
                                 .option(
                                         Option.<Integer>createBuilder()
-                                                .name(Component.literal("Minimum Durability"))
-                                                .description(OptionDescription.of(Component.literal("The mod will stop you from mining if the tool's durability is lower than this.")))
+                                                .name(Text.literal("Minimum Durability"))
+                                                .description(OptionDescription.of(Text.literal("The mod will stop you from mining if the tool's durability is lower than this.")))
                                                 .binding(
                                                         30,
                                                         () -> minDurability,
@@ -70,8 +70,8 @@ public class DurabilityGuardConfig {
                                 )
                                 .option(
                                         Option.<Boolean>createBuilder()
-                                                .name(Component.literal("Active"))
-                                                .description(OptionDescription.of(Component.literal("Determines if the mod should be active.")))
+                                                .name(Text.literal("Active"))
+                                                .description(OptionDescription.of(Text.literal("Determines if the mod should be active.")))
                                                 .binding(
                                                         true,
                                                         () -> active,
@@ -83,27 +83,27 @@ public class DurabilityGuardConfig {
                                 )
                                 .option(
                                         Option.<LimitType>createBuilder()
-                                                .name(Component.literal("Limit type"))
+                                                .name(Text.literal("Limit type"))
                                                 .binding(
                                                         LimitType.PERCENTAGE,
                                                         () -> limitType,
                                                         (newVal) -> limitType = newVal
                                                 )
-                                                .description(OptionDescription.of(Component.literal("Percentage: The limit scales with the maximum durability of the tool\n\nNumber: The limit is a fixed number\n\nBoth: If the durability reaches one of the other limits, the mod will stop you")))
+                                                .description(OptionDescription.of(Text.literal("Percentage: The limit scales with the maximum durability of the tool\n\nNumber: The limit is a fixed number\n\nBoth: If the durability reaches one of the other limits, the mod will stop you")))
                                                 .controller((opt) -> EnumControllerBuilder.create(opt)
                                                         .enumClass(LimitType.class))
                                                 .build()
                                 )
                                 .option(
                                         ListOption.<String>createBuilder()
-                                                .name(Component.literal("Ignored items"))
+                                                .name(Text.literal("Ignored items"))
                                                 .binding(
                                                         new ArrayList<>(),
                                                         () -> ignoredItems,
                                                         (newV) -> ignoredItems = newV
                                                 )
                                                 .controller(StringControllerBuilder::create)
-                                                .description(OptionDescription.of(Component.literal("The mod will ignore these items.")))
+                                                .description(OptionDescription.of(Text.literal("The mod will ignore these items.")))
                                                 .initial("minecraft:")
                                                 .build()
                                 )
@@ -118,11 +118,11 @@ public class DurabilityGuardConfig {
 
 
         @Override
-        public Component getDisplayName() {
+        public Text getDisplayName() {
             return switch (this) {
-                case PERCENTAGE -> Component.literal("Percentage");
-                case BOTH -> Component.literal("Both");
-                case NUMBER -> Component.literal("Number");
+                case PERCENTAGE -> Text.literal("Percentage");
+                case BOTH -> Text.literal("Both");
+                case NUMBER -> Text.literal("Number");
             };
         }
     }
