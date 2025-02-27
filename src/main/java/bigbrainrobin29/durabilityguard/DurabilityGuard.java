@@ -4,7 +4,13 @@ import net.fabricmc.api.ClientModInitializer;
 
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.option.StickyKeyBinding;
+import net.minecraft.client.util.InputUtil;
+import net.minecraft.text.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,6 +23,10 @@ public class DurabilityGuard implements ClientModInitializer {
 	public void onInitializeClient() {
 		LOGGER.info("Initializing Durability Guard...");
 
+		KeyBinding keyBinding = KeyBindingHelper.registerKeyBinding(
+				new StickyKeyBinding("key.durabilityguard.toggle", InputUtil.UNKNOWN_KEY.getCode(), "Durability Guard", () -> DurabilityGuardConfig.active)
+		);
+
 		DurabilityGuardConfig.HANDLER.load();
 
 		ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
@@ -27,5 +37,12 @@ public class DurabilityGuard implements ClientModInitializer {
             })));
 		});
 
+
+		ClientTickEvents.END_CLIENT_TICK.register(client -> {
+			while (keyBinding.wasPressed()) {
+				DurabilityGuardConfig.active = !DurabilityGuardConfig.active;
+				client.player.sendMessage(Text.of("Durability Guard is now " + (DurabilityGuardConfig.active ? "enabled" : "disabled")), true);
+			}
+		});
 	}
 }

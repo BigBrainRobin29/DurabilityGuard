@@ -10,8 +10,6 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.hit.HitResult;
 import org.jetbrains.annotations.Nullable;
-import org.slf4j.Logger;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -34,8 +32,6 @@ public abstract class MinecraftMixin {
 
     @Shadow public abstract ToastManager getToastManager();
 
-
-    @Shadow @Final private static Logger LOGGER;
 
     @Inject(method = "doAttack", at = @At(value = "HEAD"), cancellable = true)
     void check(CallbackInfoReturnable<Boolean> cir) {
@@ -77,17 +73,13 @@ public abstract class MinecraftMixin {
 
         String id = Registries.ITEM.getId(player.getMainHandStack().getItem()).toString();
 
-        LOGGER.info("Checking if item is ignored: " + id);
-
         if (DurabilityGuardConfig.ignoredItems.contains(id)) {
-            LOGGER.info("Item is ignored: " + id);
             isIgnored = true;
         }
 
         for (String ignoredItem : DurabilityGuardConfig.ignoredItems) {
             Pattern pattern = Pattern.compile(ignoredItem.replace("*", ".*"), Pattern.CASE_INSENSITIVE);
             if (pattern.matcher(id).matches()) {
-                LOGGER.info("Item is ignored: " + id);
                 isIgnored = true;
                 break;
             }
