@@ -20,7 +20,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Mixin(MinecraftClient.class)
@@ -94,6 +93,6 @@ public abstract class MinecraftMixin {
             }
         }
 
-        return isIgnored;
+        return DurabilityGuardConfig.useIgnoredAsWhitelist != isIgnored;
     }
 }

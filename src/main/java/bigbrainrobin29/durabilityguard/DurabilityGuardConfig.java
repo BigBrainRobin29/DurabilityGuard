@@ -32,6 +32,8 @@ public class DurabilityGuardConfig {
     @SerialEntry
     public static LimitType limitType = LimitType.PERCENTAGE;
     @SerialEntry
+    public static boolean useIgnoredAsWhitelist = false;
+    @SerialEntry
     public static List<String> ignoredItems = new ArrayList<>();
 
     public static Screen getScreen(Screen parent) {
@@ -92,6 +94,18 @@ public class DurabilityGuardConfig {
                                                 .description(OptionDescription.of(Text.literal("Percentage: The limit scales with the maximum durability of the tool\n\nNumber: The limit is a fixed number\n\nBoth: If the durability reaches one of the other limits, the mod will stop you")))
                                                 .controller((opt) -> EnumControllerBuilder.create(opt)
                                                         .enumClass(LimitType.class))
+                                                .build()
+                                )
+                                .option(
+                                        Option.<Boolean>createBuilder()
+                                                .name(Text.literal("Use ignored items as whitelist"))
+                                                .description(OptionDescription.of(Text.literal("Determines if the mod should ignore everything but the items listed in ignored tools.")))
+                                                .binding(
+                                                        false,
+                                                        () -> useIgnoredAsWhitelist,
+                                                        newVal -> useIgnoredAsWhitelist = newVal
+                                                )
+                                                .controller(TickBoxControllerBuilder::create)
                                                 .build()
                                 )
                                 .option(
