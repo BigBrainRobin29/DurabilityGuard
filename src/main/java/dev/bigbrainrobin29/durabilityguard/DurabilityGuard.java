@@ -1,7 +1,6 @@
-package bigbrainrobin29.durabilityguard;
+package dev.bigbrainrobin29.durabilityguard;
 
 import net.fabricmc.api.ClientModInitializer;
-
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;

@@ -1,7 +1,7 @@
 {
   "required": true,
-  "package": "bigbrainrobin29.durabilityguard.mixin",
-  "compatibilityLevel": "JAVA_21",
+  "package": "dev.bigbrainrobin29.durabilityguard.mixin",
+  "compatibilityLevel": "JAVA_17",
   "mixins": [
     "MinecraftMixin"
   ],
