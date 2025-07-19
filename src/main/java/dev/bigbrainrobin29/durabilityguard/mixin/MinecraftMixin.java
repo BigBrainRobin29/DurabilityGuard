@@ -25,10 +25,10 @@ public abstract class MinecraftMixin {
     @Shadow @Nullable public ClientPlayerEntity player;
     @Unique
     //? >= 1.21 {
-    //SystemToast.Type systemToastId = new SystemToast.Type(500);
+    SystemToast.Type systemToastId = new SystemToast.Type(500);
     //?} else {
-    SystemToast.Type systemToastId = SystemToast.Type.PERIODIC_NOTIFICATION;
-    //?}
+    /*SystemToast.Type systemToastId = SystemToast.Type.PERIODIC_NOTIFICATION;
+    *///?}
 
     @Shadow @Nullable public HitResult crosshairTarget;
 
@@ -57,7 +57,7 @@ public abstract class MinecraftMixin {
     void checkDamage(Runnable cancel) {
         if (!player.getMainHandStack().isEmpty()) {
             boolean damageable = player.getMainHandStack().isDamageable();
-            boolean shouldStop = damageable && !player/*? >= 1.21 {*//*.isInCreativeMode()*//*?} else {*/.isCreative()/*?}*/ && DurabilityGuardConfig.active && !isIgnored() &&
+            boolean shouldStop = damageable && !player/*? >= 1.21 {*/.isInCreativeMode()/*?} else {*//*.isCreative()*//*?}*/ && DurabilityGuardConfig.active && !isIgnored() &&
                 switch (DurabilityGuardConfig.limitType) {
                     case PERCENTAGE -> (float)(player.getMainHandStack().getMaxDamage() - (player.getMainHandStack().getDamage() + 1)) / (float)player.getMainHandStack().getMaxDamage() * 100f < DurabilityGuardConfig.minPercentage;
                     case NUMBER -> player.getMainHandStack().getMaxDamage() - (player.getMainHandStack().getDamage() + 1) < DurabilityGuardConfig.minDurability;
