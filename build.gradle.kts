@@ -104,21 +104,24 @@ publishMods {
     file = tasks.remapJar.get().archiveFile
     additionalFiles.from(tasks.remapSourcesJar.get().archiveFile)
     displayName = "${project.property("mod.name")} ${project.property("mod.version")}+${stonecutter.current.version}"
-    version = "${project.property("mod.version")}"
     changelog = rootProject.file("CHANGELOG.md").readText()
     type = STABLE
     modLoaders.add("fabric")
 
-    dryRun = providers.environmentVariable("MODRINTH_TOKEN")
+    dryRun = providers.gradleProperty("modrinth_token")
         .getOrNull() == null
+
+    val mcVersions = (property("mod.mc_targets") as String)
+        .split(" ")
+        .map { it.trim() }
 
     modrinth {
         projectId = property("publish.modrinth").toString()
-        accessToken = providers.environmentVariable("MODRINTH_TOKEN")
-        minecraftVersions.add(stonecutter.current.version)
-        requires {
-            slug = "fabric-api"
-        }
+        projectDescription = rootProject.file("README.md").readText()
+        accessToken = providers.gradleProperty("modrinth_token")
+        minecraftVersions.addAll(mcVersions)
+        requires("fabric-api", "yacl")
+        optional("modmenu")
     }
 
     /*github {

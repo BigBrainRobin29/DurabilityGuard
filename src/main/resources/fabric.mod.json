@@ -26,7 +26,7 @@
     "durability-guard.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.16",
+    "fabricloader": "*",
     "minecraft": "${minecraft}",
     "yet_another_config_lib_v3": "*",
     "fabric-api": "*"
