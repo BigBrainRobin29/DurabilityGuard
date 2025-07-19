@@ -8,7 +8,7 @@ DurabilityGuard is a highly configurable Minecraft mod that stops you from using
 
 ## Keybind
 
-You can toggle the mod on and off using the `Toggle` keybind in the `Durability Guard` category in the keybinds menu. By default, this keybind is not bound to any key, so you will need to set it up manually.`
+You can toggle the mod on and off using the `Toggle` keybind in the `Durability Guard` category in the keybinds menu. By default, this keybind is not bound to any key, so you will need to set it up manually.
 
 ## Configuration
 
