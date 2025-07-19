@@ -25,4 +25,17 @@ You can open the in-game configuration menu by running the `/durabilityguard` co
 | Use ignored items as whitelist | `false`      | If true, items in `Ignored items` will be treated as a whitelist, meaning items that are not in the list can always be used regardless of their durability.                                                                                                                                                                                                                                                                                                     |
 | Ignored items                  | `[]`         | A list of items that will be ignored by the mod (if `Use ignored items as whitelist` is true, see description above). The items are specified by their item ID, which can be found in the game by hovering over the item in the inventory and looking at the tooltip. For example, `minecraft:diamond_pickaxe` for a diamond pickaxe. The `*` placeholder can be used to match any item of a certain type, e.g. `minecraft:stone_*` will match all stone tools. |
 
+## Supported Versions
+
+| Minecraft Version | Status    |
+|-------------------|-----------|
+| 1.21.6 - 1.21.8   | Supported |
+| 1.21.5            | Supported |
+| 1.21.4            | Supported |
+| 1.21.2 - 1.21.3   | Supported |
+| 1.21 - 1.21.1     | Supported |
+| 1.20.5 - 1.20.6   | Supported |
+| 1.20.4            | Supported |
+| 1.20 - 1.20.1     | Supported |
+
 <sub>This code is licensed under the [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed) license.<sub>
