@@ -14,7 +14,7 @@ You can toggle the mod on and off using the `Toggle` keybind in the `Durability 
 
 You can open the in-game configuration menu by running the `/durabilityguard` command in the chat.
 
-<img width="1920" height="1080" alt="2025-07-19_15 39 37" src="https://github.com/user-attachments/assets/292e7ca3-3dc7-45d1-b84f-70b992e46790" />
+<img width="1920" height="1080" alt="configuration screen" src="https://github.com/user-attachments/assets/292e7ca3-3dc7-45d1-b84f-70b992e46790" />
 
 | Option                         | Default      | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
 |--------------------------------|--------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
