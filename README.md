@@ -29,6 +29,7 @@ You can open the in-game configuration menu by running the `/durabilityguard` co
 
 | Minecraft Version | Status    |
 |-------------------|-----------|
+| 1.21.9            | Supported |
 | 1.21.6 - 1.21.8   | Supported |
 | 1.21.5            | Supported |
 | 1.21.4            | Supported |

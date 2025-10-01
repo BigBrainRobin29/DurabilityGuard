@@ -1,3 +1,4 @@
 {
-  "key.durabilityguard.toggle": "Toggle"
+    "key.durability-guard.toggle": "Toggle",
+    "key.category.durability-guard.durability-guard": "Durability Guard"
 }

@@ -10,6 +10,7 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.option.StickyKeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +24,10 @@ public class DurabilityGuard implements ClientModInitializer {
 		LOGGER.info("Initializing Durability Guard...");
 
 		KeyBinding keyBinding = KeyBindingHelper.registerKeyBinding(
-				new StickyKeyBinding("key.durabilityguard.toggle", InputUtil.UNKNOWN_KEY.getCode(), "Durability Guard", () -> DurabilityGuardConfig.active)
+                //? if < 1.21.9
+				/*new StickyKeyBinding("key.durability-guard.toggle", InputUtil.UNKNOWN_KEY.getCode(), "Durability Guard", () -> DurabilityGuardConfig.active)*/
+                //? if >= 1.21.9
+                new StickyKeyBinding("key.durability-guard.toggle", InputUtil.UNKNOWN_KEY.getCode(), new KeyBinding.Category(Identifier.of(MOD_ID, MOD_ID)), () -> DurabilityGuardConfig.active, false)
 		);
 
 		DurabilityGuardConfig.HANDLER.load();
